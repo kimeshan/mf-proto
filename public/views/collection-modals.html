@@ -1,0 +1,192 @@
+<!--Modals-->
+<!-- Modals for Event Templates (collections) CRUD -->
+
+<!--Modal for Creating a new collection-->
+<div class="modal fade" id="AddCollectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Event Adder</h4>
+      </div>
+      <div class="modal-body">
+        <form name="createCollectionForm" class="form-group lefty" novalidate>      
+            <p><h2 class='text-primary'>Create a new events template</h2></p>
+            <div class="form-group">
+                    <label for="collectionName">Events template name: </label>
+                    <input type="text" ng-model="tabs.collectionName" class="form-control" id="collectionName" placeholder = "e.g. RugbyPlays_Super14" required></input>
+            </div>
+            <div>
+                <p>
+                    <button class="btn btn-primary btn-block btn-lg" role="button" ng-disabled="createCollectionForm.$invalid" ng-click="tabs.addCollection()">Create Events Template</button>
+                    <div class="alert alert-success" role="alert" ng-show="tabs.collectionSubmittedResult==true">
+                        <strong>Template created!</strong> {{tabs.collectionNameSaved}} was successfuly created.
+                    </div>
+                    <div class="alert alert-danger" role="alert" ng-show="!(tabs.collectionSubmittedError==false)">
+                        <strong>Error!</strong> Oh snap! {{tabs.collectionSubmittedError}}
+                    </div>
+                </p>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-lg" ng-click="tabs.boxClosed()" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success btn-lg" ng-show="tabs.collectionSubmittedResult" data-toggle="modal" data-target="#AddEventModal">Add Events to {{tabs.collectionSelected}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal to confirm deletion of collection -->
+<div class="modal fade" id="DeleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirm deletion of events template</h4>
+      </div>
+      <div class="modal-body">
+        <p> 
+            <div class="alert alert-success" role="alert" ng-show="tabs.collectionDeletedResult==true">
+                <strong>Template deleted!</strong> {{tabs.collectionDeletedCollectionNameSave}} deleted.
+            </div>
+            <div class="alert alert-danger" role="alert" ng-show="!(tabs.collectionDeletedError==false)">
+                <strong>Error!</strong> Oh snap! {{tabs.collectionDeletedError}} Try again.
+            </div>
+        </p>
+        <p ng-show="tabs.collectionDeletedResult==false">
+            Are you sure you want to delete events template "{{tabs.collectionSelected}}"? All events linked to this template will also be deleted.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-lg" ng-click="tabs.boxClosed()" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" ng-show="tabs.collectionDeletedResult==false" ng-click="tabs.deleteCollection()" >Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals for events CRUD -->
+
+<!-- Reading events and populating table -- >
+<div id="EventEditor" ng-show="tabs.eventsObject.length>0">
+  <h4 class="text-success">Events currently existing</h4>
+  <table class="table table-bordered table-striped table-hover">
+      <thead>
+          <tr class="active">
+              <th class="success">Event Name</th>
+              <th class="success">Lead Time (sec)</th>
+              <th class="success">Lag Time (sec)</th>
+              <th class="success">Manage Event</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat = "event in tabs.eventsObject">
+              <td>{{event.event_name}}</td>
+              <td>{{event.lead_time}}</td>
+              <td>{{event.lag_time}}</td>
+              <td>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <button class="btn btn-block btn-danger btn-md" ng-click="tabs.deleteEventNow(event.event_name)" role="button">
+                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                          </button>
+                      </div>
+                      <div class="col-md-6">
+                          <button class="btn btn-block btn-warning btn-md" ng-click="tabs.setEventNameSelectedForUpdate(event.event_name)" data-toggle="modal" ng-show="tabs.eventsObject.length>0" data-target="#EditEventModal" role="button">
+                              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          </button>
+                      </div>
+              </td>
+
+          </tr>
+      </tbody>
+  </table>
+  <p class='text-success lefty'>Total events: {{tabs.numberOfEvents}}</p>
+  <div class="row">
+      <div class="col-md-12">
+          <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#AddEventModal" role="button">
+              Add New Event   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </button>
+      </div>
+  </div>
+</div>
+
+<!-- Modal for adding events -->
+<div class="modal fade" id="AddEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add events</h4>
+      </div>
+      <div class="modal-body">
+                <form name="AddEventForm" novalidate class="lefty">
+                    <h2 class='text-primary'>Add events which can be tagged in video</h2>
+                    <div class="form-group has-sucess has-feedback">
+                        <label for="eventName">Enter event name: </label>
+                        <input type="text" ng-model="tabs.eventName" class="form-control input-lg " id="EventName" placeholder = "Type event name here to add new event" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadTime">Enter lead time (seconds) </label>
+                        <input type="number" value="10" ng-model="tabs.leadTime" class="form-control" id="leadTime" placeholder="10" required>
+                        <label for="lagTime">Enter lag time (seconds) </label>
+                        <input type="number" value="10" ng-model="tabs.lagTime" class="form-control" id="lagTime" placeholder="10" required>
+                    </div>
+                    <div class="alert alert-success" role="alert" ng-show="tabs.statusEventAdded">
+                        <strong>Event added!</strong> {{tabs.savedEventName}} was successfully added to this template.
+                    </div>
+                    <div class="alert alert-danger" role="alert" ng-show="!(tabs.errorEventAdded==false)">
+                        <strong>Error!</strong> Oh snap! {{tabs.errorEventAdded}}
+                    </div>
+                    <p style='text-align:center'><button class="btn btn-primary btn-block" role="button" ng-click="tabs.addEvent()" ng-disabled="AddEventForm.$invalid">Add event</button></p>
+                    </p>
+                </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="tabs.boxClosed()" data-dismiss="modal">Done adding events.</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal to edit an event -->
+<div class="modal fade" id="EditEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit event details</h4>
+      </div>
+      <div class="modal-body">
+        <form name="EditEventForm" novalidate class="lefty">
+            <h2 class='text-primary'>Edit event details and then click 'save' or click 'close' to exit without any changes.</h2>
+            <div class="form-group has-sucess has-feedback">
+                <label for="eventName">Event name: </label>
+                <input type="text" ng-model="tabs.currentEventName" class="form-control input-lg " id="EventName" placeholder = "Type event name here to add new event" required>
+            </div>
+            <div class="form-group">
+                <label for="leadTime">Lead time (seconds) </label>
+                <input type="number" ng-model="tabs.currentLeadTime" class="form-control" id="leadTime" placeholder="10" required>
+                <label for="lagTime">Lag time (seconds) </label>
+                <input type="number" ng-model="tabs.currentLagTime" class="form-control" id="lagTime" placeholder="10" required>
+            </div>
+            <p>
+                <div class="alert alert-success" role="alert" ng-show="tabs.eventUpdatedResult==true">
+                    <strong>Event updated!</strong>
+                </div>
+
+                <div class="alert alert-danger" role="alert" ng-show="!(tabs.eventUpdatedError==false)">
+                    <strong>Error!</strong> Oh snap! {{tabs.eventUpdatedError}} Try again.
+                </div>
+            </p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" ng-click="tabs.boxClosed()">Close</button>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" ng-disabled="EditEventForm.$invalid" ng-show="tabs.eventUpdatedResult==false" ng-click="tabs.updateEvent()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+

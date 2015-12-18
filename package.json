@@ -1,0 +1,19 @@
+{
+  "name": "maxflow",
+  "version":"1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.4.2",
+    "express": "~4.9",
+    "fluent-ffmpeg": "^2.0.0-rc3",
+    "method-override": "~2.0.2",
+    "mongodb": "^2.0.24",
+    "mongoose": "^4.0.0",
+    "multer": "^0.1.8"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-shell-spawn": "^0.3.8"
+  }
+}

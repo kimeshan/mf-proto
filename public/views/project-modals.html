@@ -1,0 +1,157 @@
+<!--Edit Project Modal-->
+
+<div class="modal fade" id="EditProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit</h4>
+      </div>
+      <div class="modal-body">        
+         <form name="EditProjectForm" class="form-group lefty" novalidate>      
+            <p><h2 class='text-primary'>Edit {{project.projectSelected}}</h2></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="editedProjectName">Project name: </label>
+                    <input type="text" ng-model="project.editedProjectName" class="form-control" id="editedProjectName" placeholder = "e.g. Analysis_LionsVBarbarians" disabled></input>
+                </div>
+                <div class="col-md-6">
+                    <label for= "editedDatePlayed">Date played:</label>
+                    <input type="date" ng-model="project.editedDatePlayed" class="form-control" id="editedDatePlayed"></input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for= "editedLocalTeam">Local team:</label>
+                    <input type="text" ng-model="project.editedLocalTeam" class="form-control" id="editedLocalTeam" required></input>
+                </div>
+                <div class="col-md-6">
+                    <label for= "editedOppositionTeam">Opposition team:</label>
+                    <input type="text" ng-model="project.editedOppositionTeam" class="form-control" id="editedOppositionTeam" required></input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for= "editedSeason">Season:</label>
+                    <input type="text" ng-model="project.editedSeason" class="form-control" id="editedSeason"></input>
+                </div>
+                <div class="col-md-6">
+                    <label for= "editedCompetition">Competition:</label>
+                    <input type="text" ng-model="project.editedCompetition" class="form-control" id="editedCompetition"></input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="editedLocalTeamScore">Local Team Score:</label>
+                    <input type='number' ng-model="project.editedLocalTeamScore" class="form-control" id="editedLocalTeamScore"></input>
+                </div>
+                <div class="col-md-6">
+                    <label for="editedOppositionTeamScore">Opposition Team Score:</label>
+                    <input type='number' ng-model="project.editedOppositionTeamScore" class="form-control" id="editedOppositionTeamScore"></input>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="videosDropDown">Video to use for this project.</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" ng-show="project.videoCollection.length>0">
+                    <select id="videosDropDown" class="form-control" ng-model="project.videoSelected" required>
+                        <option ng-repeat="video in project.videoCollection">{{video.video_name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <p>
+                    <div class="col-md-12">
+                        <button class="btn btn-block btn-primary btn-lg" role="button" data-toggle="modal" data-target="#EditProjectEventsModal">Manage events</button>
+                    </div>
+                </p>
+            </div>
+
+             <p>
+                <div class="alert alert-success" role="alert" ng-show="project.projectUpdatedResult==true">
+                    <strong>Event updated!</strong>
+                </div>
+
+                <div class="alert alert-danger" role="alert" ng-show="!(project.projectUpdatedError==false)">
+                    <strong>Error!</strong> Oh snap! {{collection.eventUpdatedError}} Try again.
+                </div>
+            </p>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" ng-click="project.boxClosed()">Close</button>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" ng-disabled="EditProjectForm.$invalid" ng-click="project.updateProject()" >Save changes</button>
+      </div>
+
+    </div>
+    </div>
+</div>
+
+<!--Edit Events in Project Modal -->
+
+
+<div class="modal fade" id="EditProjectEventsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Manage events in project</h4>
+      </div>
+      <div class="modal-body">
+        <div id="EventEditor" ng-show="true">
+            <h4 class="text-success">Events in  {{project.projectSelected}}:</h2>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="active">
+                        <th class="success">Event Name</th>
+                        <th class="success">Lead Time (sec)</th>
+                        <th class="success">Lag Time (sec)</th>
+                        <th class="success">Manage Event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat = "event in tabs.eventsObject">
+                        <td>{{event.event_name}}</td>
+                        <td>{{event.lead_time}}</td>
+                        <td>{{event.lag_time}}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-block btn-danger btn-md" ng-click="tabs.deleteEventNow(event.event_name)" role="button">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-block btn-warning btn-md" ng-click="tabs.setEventNameSelectedForUpdate(event.event_name)" data-toggle="modal" ng-show="true" data-target="#EditEventModal" role="button">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <p class='text-success lefty'>Total events: {{collection.numberOfEvents}}</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#AddEventModal" role="button">
+                        Add New Event   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" ng-click="tabs.boxClosed()">Close</button>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" ng-disabled="EditEventForm.$invalid" ng-show="collection.eventUpdatedResult==false" ng-click="collection.updateEvent()" >Save changes</button>
+      </div>
+    </div>
+    </div>
+</div>

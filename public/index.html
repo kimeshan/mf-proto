@@ -1,0 +1,65 @@
+ <!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <!-- meta information required for Twitter Bootstrap (CSS module) -->
+	    <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Maxflow Sports Analysis</title>
+	    <!--  Links to Twitter bootstrap css files-->
+	    <link href="/libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	    <link href="/libs/bootstrap/dist/css/jumbotron-narrow.css" rel="stylesheet">
+	</head>
+	<body>
+		<script type='text/javascript' src='/libs/angular/angular.min.js'></script>
+		<script type='text/javascript' src='/libs/angular-sanitize/angular-sanitize.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular/videogular.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-angulartics/vg-analytics.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-buffering/vg-buffering.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-controls/vg-controls.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-ima-ads/vg-ima-ads.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-overlay-play/vg-overlay-play.min.js'></script>
+		<script type='text/javascript' src='/libs/videogular-poster/vg-poster.min.js'></script>
+		<script type='text/javascript' src='/libs/jquery/dist/jquery.min.js'></script>	
+		<script type='text/javascript' src='/libs/bootstrap/dist/js/bootstrap.min.js'></script>		
+		<script type='text/javascript' src='/libs/angular-bootstrap/ui-bootstrap.min.js'></script>
+		<script type='text/javascript' src='/js/app.js'></script>
+		<script type='text/javascript' src='js/controllers/MainCtrl.js'></script>	
+		<script type='text/javascript' src='js/controllers/CollectionCtrl.js'></script>
+		<script type='text/javascript' src='js/controllers/ProjectCtrl.js'></script>
+		<script type='text/javascript' src='js/controllers/AnalyzerCtrl.js'></script>
+		<script type='text/javascript' src='/js/services/VideoService.js'></script>	
+		<script type='text/javascript' src='/js/services/DataSharing.js'></script>
+			
+		<div class="container-fluid" id="MaxflowApplication" ng-app='Maxflow'>	
+			<div class="header clearfix" id="WebTabs">
+				<nav>	  				
+				<ul class="nav nav-pills pull-right">
+				<li role="presentation" class="active"><a href="">Maxflow Web Application</a></li>
+				<li role="presentation"><a href="#">About</a></li>
+				<li role="presentation"><a href="#">Contact</a></li>
+				</ul>
+				</nav>
+				<img alt="Maxflow" src="/img/maxflow140.png" />
+	    	</div>
+	    	<div id="ProcessTabs" ng-controller="TabCtrl as tabs">
+	    		<div class="container-fluid">
+				<nav>
+					<ul class="nav nav-pills pull-left">
+						<li><a href ng-click="tabs.currentTab=1">Project Manager</a></li>
+						<li><a href ng-click="tabs.currentTab=2">Event Template Manager</a></li>	    					    				
+	    				<li><a href ng-click="tabs.currentTab=3">Video Manager</a></li>
+	    				<li ng-show="!tabs.hideCaptureMode"><a href ng-click="tabs.currentTab=4">Capture Mode</a></li>
+	    			</ul>
+	    		</nav>
+	    		</div>
+	    		<projectmanager-tab ng-show="tabs.currentTab==1"></projectmanager-tab>
+	    		<collectionmanager-tab ng-show="tabs.currentTab==2"></collectionmanager-tab>	    		
+	    		<videomanager-tab ng-show="tabs.currentTab==3"></videomanager-tab>
+	    		<analyzer-tab ng-show="tabs.currentTab==4"></analyzer-tab>
+	    		<collection-modals></collection-modals>
+			</div>
+		</div>
+	</body>
+</html>

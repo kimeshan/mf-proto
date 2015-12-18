@@ -1,0 +1,112 @@
+<div class="container-fluid" id="VideoManagerTab" ng-controller="VideoCtrl as video">		
+  	<div class="jumbotron" id="VideoManager">
+        <h1>Video Manager</h1>
+        <p class="lead">Browse, add and delete videos.</p>
+    </div>
+    <div class="container-fluid light">
+ 		<form class="form-group left" ng-show="video.videoCollection.length>0">
+            <p><h2 class='text-primary'>Videos</h2></p>
+            <div class="row">
+                <div class="col-md-9">
+                    <select ng-model="video.videoSelected" class="form-control input-lg" required>
+                          <option ng-repeat="eachVideo in video.videoCollection">{{eachVideo.video_name}}</option>
+                    </select>  
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#UploadVideoModal" role="button">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>   
+                <div class="col-md-1">
+                    <button class="btn btn-danger btn-lg" data-toggle="modal"data-target="#DeleteVideoModal" role="button">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                </div> 
+                <div class="col-md-1">
+                    <button class="btn btn-block btn-success btn-lg" role="button">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </button>
+                </div>
+ 
+            </div>
+
+            <div class="container">
+            	</br>
+            	<p class="middle-it"><video src={{video.selectedVideoPath}} controls></video></p>
+        	</div>
+        </form>
+
+        <div ng-show="video.videoCollection.length<1">
+                <p>
+                    <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#UploadVideoModal" role="button">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Upload a new video
+                    </button>
+                </p>
+        </div>
+
+
+        <!--Video upload modal -->
+        <div class="modal fade" id="UploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Upload a new video</h4>
+		      </div>
+		      <div class="modal-body">
+					<form name="UploadForm" novalidate style="text-align:left">
+			        	<div class="form-group">
+						    <label for="fileName">Enter video name: </label>
+						    <input type="text" ng-model="video.fileName" class="form-control" id="fileName" placeholder="Enter name of video here e.g. Super14_Semi_Final_1st_Half" required>
+						</div>
+			        	<div class="form-group">
+					        <label for="fileSelector">Choose file</label>
+			    			<input type="file" file-model="video.VideoFile" accept='video/*' class="form-control" id="fileSelector" required>		    			
+			    		</div>
+			    		<p class="text-danger lefty" ng-show="video.validVideo==false">You didn't select a video.</p>
+						<p style='text-align:center'><button class="btn btn-lg btn-primary" role="button" ng-click="video.uploadFile()" ng-disabled="UploadForm.$invalid||video.VideoFile==null||video.validVideo==false">Upload</button></p>
+						</p>
+					</form>
+					<div class="middle-it">
+						<p class='text-primary'>{{video.uploadStatus}}</p> 
+					</div>
+				</div>			
+		
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" ng-click="video.boxClosed()">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Video delete confirmation modal -->
+
+		<div class="modal fade" id="DeleteVideoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-md">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Confirm deletion of video</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p> 
+		            <div class="alert alert-success" role="alert" ng-show="video.videoDeletedResult==true">
+		                <strong>Video deleted!</strong> {{video.videoDeletedVideoNameSave}} deleted.
+		            </div>
+		            <div class="alert alert-danger" role="alert" ng-show="!(video.videoDeletedError==false)">
+		                <strong>Error!</strong> Oh snap! {{video.videoDeletedError}} Try again.
+		            </div>
+		        </p>
+		        <p ng-show="video.videoDeletedResult==false">
+		            Are you sure you want to delete video <strong>{{video.videoSelected}}</strong>? The video will be deleted from your computer and the video manager.
+		        </p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-success btn-lg" ng-click="video.boxClosed()" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" ng-show="video.videoDeletedResult==false" ng-click="video.removeVideo()" >Delete</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+</div>  

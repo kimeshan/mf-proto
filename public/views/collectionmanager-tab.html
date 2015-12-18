@@ -1,0 +1,98 @@
+<div class="container-fluid" id="CollectionTab" ng-controller="CollectionCtrl as collection">		
+  	<div class="jumbotron" id="CollectionBox">
+        <h1>Event Template Manager</h1>
+        <p class="lead">Manage exisiting templates or create a new one.</p>
+    </div>
+
+    <div class="container-fluid light">
+        <form class="form-group left" ng-show="tabs.collectionList.length>0">
+            <p><h2 class='text-primary'>Event Templates</h2></p>
+            <div class="row">
+                <div class="col-md-9">
+                    <select ng-model="tabs.collectionSelected" class="form-control input-lg" required>
+                          <option ng-repeat="eachCollection in tabs.collectionList">{{eachCollection.name}}</option>
+                    </select>  
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddCollectionModal" role="button">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>   
+                <div class="col-md-1">
+                    <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#DeleteConfirmationModal" role="button">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                </div> 
+                <div ng-show="false" class="col-md-1">
+                    <button class="btn btn-block btn-success btn-lg" role="button">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </button>
+                </div>
+ 
+            </div>
+            <div id="EventEditor" ng-show="tabs.eventsObject.length>0">
+                <h4 class="text-success">Events in  {{tabs.collectionSelected}} template </h4>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th class="success">Event Name</th>
+                            <th class="success">Lead Time (sec)</th>
+                            <th class="success">Lag Time (sec)</th>
+                            <th class="success">Manage Event</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat = "event in tabs.eventsObject">
+                            <td>{{event.event_name}}</td>
+                            <td>{{event.lead_time}}</td>
+                            <td>{{event.lag_time}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-block btn-danger btn-md" ng-click="tabs.deleteEventNow(event.event_name)" role="button">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-block btn-warning btn-md" ng-click="tabs.setEventNameSelectedForUpdate(event.event_name)" data-toggle="modal" ng-show="tabs.eventsObject.length>0" data-target="#EditEventModal" role="button">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#AddEventModal" role="button">
+                            Add New Event   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="tabs.eventsObject.length<1">
+                <h2 class='text-primary'>No exisiting events in {{tabs.collectionSelected}} events template.</h2>
+                <p>
+                    <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#AddEventModal" role="button">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Event(s)
+                    </button>
+                </p>
+            </div>
+
+        </form>
+        <div ng-show="tabs.collectionList.length<1">
+            <p>
+                <button class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#AddCollectionModal" role="button">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="ture"></span> Create New Events Template
+                </button>
+            </p>
+        </div>
+        
+
+
+
+
+	</div>	
+</div>  

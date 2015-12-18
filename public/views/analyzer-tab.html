@@ -1,0 +1,78 @@
+<div class="container-fluid" id="AnalyzerTab" ng-controller="AnalyzerCtrl as analyzer">		
+  	<div class="jumbotron" id="Analyzer">    
+        <h1>Capture Mode</h1>
+        <p class="lead">Tag events in your video!</p>
+  		<div class="row">    
+	 		<div class="col-md-3">
+	 			<h5 class="text-primary">Project: <span class='text-success'>{{analyzer.projectObject.name}}</span></h5>
+	 		</div>
+	 		<div class="col-md-3">
+                <h5 class="text-primary">Events Template: <span class='text-success'>{{analyzer.projectObject.collection_name}}</span></h5>
+	        </div>
+            <div class="col-md-6">
+                <h5 class="text-primary">Video file: <span class='text-success'>{{analyzer.projectObject.video}}</span></h5>
+            </div>
+
+    	</div>
+    </div>
+
+    <div class="container-fluid light">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+                    <h2>Tags</h2>
+                </div>
+                <div ng-repeat="tag in analyzer.projectTags" class="row">
+                    <h4>{{tag.tag_name}}</h4>
+                    <a href="" ng-click="analyzer.API.seekTime(tag.start_time)">Play |</a>
+                    <a href="" ng-click="analyzer.deleteTag(tag.tag_name)"> Delete</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- Get video path from video table using the vide name from projectObject and display video here -->
+                <videogular vg-player-ready="analyzer.onPlayerReady($API)" vg-complete="analyzer.onCompleteVideo()" vg-theme="analyzer.videoConfig.theme.url">
+                    <vg-media vg-src="analyzer.videoConfig.sources"></vg-media>
+                    <vg-poster vg-url='analyzer.videoConfig.plugins.poster'></vg-poster>
+                    <vg-controls>
+                        <vg-play-pause-button></vg-play-pause-button>
+                        <vg-time-display>{{ analyzer.API.currentTime | date:'mm:ss' }}</vg-time-display>
+                        <vg-scrub-bar>
+                            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        </vg-scrub-bar>
+                        <vg-time-display>{{ analyzer.API.timeLeft | date:'mm:ss' }}</vg-time-display>
+                        <vg-volume>
+                            <vg-mute-button></vg-mute-button>
+                            <vg-volume-bar></vg-volume-bar>
+                        </vg-volume>
+                        <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
+                </videogular>
+                <p></p>
+                <div class="row">
+                    <div class = "col-md-3">
+                        <button ng-click="analyzer.stop()" class="btn btn-md btn-danger">Stop Video</button>
+                    </div>
+                    <div class = "col-md-3">
+                        <button  ng-click="analyzer.API.seekTime((analyzer.API.currentTime/1000)-5)" class="btn btn-md btn-warning">Go back 5s</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                        <h3 class="text-primary">Click an event to tag it at current video time ({{ analyzer.API.currentTime | date:'mm:ss' }})</h3>
+                </div>
+                <div class = "row">
+                    <div ng-repeat="page in analyzer.paginatedEvents" class="btn-group btn-group-justified" role="group" aria-label="events">
+                      <div ng-repeat="event in page" class="btn-group" role="group">
+                            <button ng-click="analyzer.addTag(event)" type="button" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp&nbsp{{event.event_name}}
+                            </button>
+                      </div>
+                    </div>                
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>  
