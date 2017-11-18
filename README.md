@@ -1,5 +1,8 @@
 # Matchflow Prototype 🏉
 
+ ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+ ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+ 
 Sports video ⏩ analysis platform
 
 ## Getting Started
