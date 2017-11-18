@@ -22,7 +22,7 @@ You will need to install:
 3. Run MongoDB server, from Command Prompt on Windows, navigate to the directory where you installed MongoDB which contains the mongod.exe file.
   - Now, specify the data directory using the command:
      ```
-     .\mongod.exe --dbpath "C:/Maxflow"
+     .\mongod.exe --dbpath "C:/mf-proto"
      ```
      This should get the MongoDB server up and listening to the default port. Do not close this command prompt window.
      
@@ -32,7 +32,7 @@ You will need to install:
   - "Magic happens at port 3000" should be displayed. Your firewall may pop up with a notification - if so proceed to allow Node.js to use port 3000.
   - "Connection successful to MongoDB" should also be displayed indicated that the Mongo server has been connected to.
   
-5. Open your web browser (preferably Chrome), and go to 'localhost:3000'. This should start the Maxflow web application! That's it.
+5. Open your web browser (preferably Chrome), and go to 'localhost:3000'. This should start the mf-proto web application! That's it.
 
 6. Videos uploaded will automatically upload to: *your-chosen-directory-in-2*/public/Video Uploads
 
@@ -40,7 +40,7 @@ You will need to install:
 
 
 ## Technical Overview
-mf-proto is a sports match and player performance video analytics platform. It's a web application built on the MEAN stack. **Node.js** and the **Express** web framework is used on the backend while **AngularJS, HTML 5 and CSS** are used on the front-end. MongoDB will be used as the database. Maxflow can be used offline and online in the browser while a sync process will ensure the online server is updated.
+mf-proto is a sports match and player performance video analytics platform. It's a web application built on the MEAN stack. **Node.js** and the **Express** web framework is used on the backend while **AngularJS, HTML 5 and CSS** are used on the front-end. MongoDB will be used as the database. mf-proto can be used offline and online in the browser while a sync process will ensure the online server is updated.
 
 The completed web application will consist of three main components:
  1. **Project, Collections & Events Management (CRUD)**
@@ -64,7 +64,7 @@ The completed web application will consist of three main components:
      - "lead_time":"Number"
      - "lag_time":"Number"
  2. **Video Manager**
-  - **Uploader** - Performs video upload (offline and online). Offline uploads will be stored in the Maxflow application folder (which will ultimately be in C:/Program Files when the completed product is distributed). When an internet connection is available uploaded videos will be syncrhonized with a cloud-based server.
+  - **Uploader** - Performs video upload (offline and online). Offline uploads will be stored in the mf-proto application folder (which will ultimately be in C:/Program Files when the completed product is distributed). When an internet connection is available uploaded videos will be syncrhonized with a cloud-based server.
   - **Converter** - Converts original uploaded video using fluent-ffmpeg module. The goal here is to compress large video files (such as those from HD camcorders) to obtain a smaller file size while maintaining an acceptable viewing quality for later analysis in the Editor. 
  3. **Video Analysis Mode** - User can tag segments of the video with these events. Events are defined by the user in a Collection visa the Collections & Events Manager (CRUD), for example an event called "Penalty Team Blue" might be created with a lead time of 10sec and lag time of 20 sec. When a time point (say 00:05:02) in the video is tagged with this event, the tag stored will define start time (lead time) as 10 seconds before (00:05:52) and end time (lag time) as 20 seconds after (00:05:22). A 'tags' table in the database will store this information.
   - **Tags** table columns:
@@ -91,7 +91,7 @@ The completed web application will consist of three main components:
   -  Once a collection is selected, the events manager can be used to create, list, delete and update events inside the collection.
   -  Same features as project manager (modals, error handling, delete prompt).
 - Video Manager
-  - Video upload: file is copied to Maxflow application folder inside "Video Uploads" folder.
+  - Video upload: file is copied to mf-proto application folder inside "Video Uploads" folder.
   - Video renaming according to user input via form. Validation: Upload button enabled only when a name and valid video file has been selected.
   - Video listing and deletion.
   - In-browser video player displays video for mp4, ogg and webm video files.
@@ -111,4 +111,4 @@ The completed web application will consist of three main components:
 - Video analysis mode: Allow tagging of time points in the video with the events that were defined by the user.
 - Video player/browser: Integrating a feature-rich video player such as Video.js to enable advance video playing and timeline features in the browser.
 - Progress bar: For video upload.
-- Sync process to synchronous videos on the user's machine with online, cloud-based server. This will allow the user to access videos from any location by logging in through the Maxflow web application on a web broswer.
+- Sync process to synchronous videos on the user's machine with online, cloud-based server. This will allow the user to access videos from any location by logging in through the mf-proto web application on a web broswer.
