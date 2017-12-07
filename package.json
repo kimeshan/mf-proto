@@ -1,6 +1,6 @@
 {
-  "name": "maxflow",
-  "version":"1.0.0",
+  "name": "mf-proto",
+  "version":"1.0.1",
   "main": "server.js",
   "dependencies": {
     "body-parser": "~1.4.2",

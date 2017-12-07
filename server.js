@@ -39,7 +39,7 @@ mongoose.connect('mongodb://localhost/flowbase', function(err) {
 });
 
 //Create schemas
-//Create a projects schema to keep track of projects
+//Create a project schema
 var ProjectsSchema = new mongoose.Schema({
   "name": {"type":"String","unique":true},
   "date_played":{"type":"Date"},
@@ -94,6 +94,7 @@ var VideosConvertedSchema = new mongoose.Schema({
 	"codec":"String"
 });
 
+//Create tags schema
 var TagsSchema = new mongoose.Schema({
 	"tag_name":{"type":"String", "unique":true},
 	"event_name":"String",

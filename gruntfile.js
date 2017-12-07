@@ -30,7 +30,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-shell-spawn');
-
+	//register main task
   grunt.registerTask('run-maxflow', ['shell']);
 
 };

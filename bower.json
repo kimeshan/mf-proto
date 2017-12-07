@@ -1,5 +1,5 @@
 {
-  "name": "maxflow",
+  "name": "mf-proto",
   "version": "1.0.0",
   "dependencies": {
     "bootstrap": "latest",
